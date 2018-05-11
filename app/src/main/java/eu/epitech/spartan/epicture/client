@@ -1,0 +1,12 @@
+Client ID: f4b1b225b0c412a
+Client secret: 7928201b1864f682f151cf7e87862df938627915
+
+https://api.imgur.com/oauth2/authorize?client_id=f4b1b225b0c412a&response_type=pin&state=optionnalInfo
+ => user gets a pin
+ => user enters the pin in the app => var userPin
+ => "https://api.imgur.com/oauth2/token?client_id=f4b1b225b0c412a&client_secret=7928201b1864f682f151cf7e87862df938627915&grant_type=pin&pin="+userPin
+ => access_token & refresh_token in the response => store in DB
+
+
+
+ => if access_token expires => new request with refresh token / client_id to get new access_token

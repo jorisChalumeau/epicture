@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">epicture</string>
+    <string name="action_see_content">access your wall</string>
+    <string name="action_upload">upload an image</string>
+</resources>
