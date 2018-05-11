@@ -1,5 +1,13 @@
 <resources>
+    <!-- main activity -->
     <string name="app_name">epicture</string>
     <string name="action_see_content">access your wall</string>
     <string name="action_upload">upload an image</string>
+
+    <!-- upload activity -->
+    <string name="choose_picture">Choose a picture to upload</string>
+    <string name="button_upload">upload</string>
+    <string name="button_clear">clear</string>
+
+
 </resources>

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void dispReadContentActivity() {
         Intent intent = new Intent(this, ReadContentActivity.class);
+        startActivity(intent);
     }
 
     private void dispUploadActivity() {
