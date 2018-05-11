@@ -8,7 +8,8 @@
 
 
     <!-- this view is used to display any selected picture -->
-    <View
+    <ImageView
+        android:layout_marginStart="25dp"
         android:id="@+id/toUploadImgView"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/default_img_height" />
@@ -20,7 +21,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@id/toUploadImgView"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:id="@+id/labChooseImg"
@@ -35,10 +37,11 @@
             android:id="@+id/fabChooseImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:tint="@android:color/white"
             android:clickable="true"
             android:focusable="true"
             app:srcCompat="@android:drawable/ic_input_add" />
-
     </LinearLayout>
 
     <!-- button to remove all selected pictures -->
@@ -46,7 +49,7 @@
         android:id="@+id/clearButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/mini_margin_horizontal"
+        android:layout_marginStart="30dp"
         android:layout_below="@id/toChooseImgAction"
         android:enabled="false"
         android:text="@string/button_clear" />
@@ -56,7 +59,7 @@
         android:id="@+id/uploadButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/mini_margin_horizontal"
+        android:layout_marginEnd="30dp"
         android:layout_below="@id/toChooseImgAction"
         android:layout_alignParentEnd="true"
         android:enabled="false"
