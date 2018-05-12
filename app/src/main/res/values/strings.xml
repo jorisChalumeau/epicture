@@ -2,12 +2,18 @@
     <!-- main activity -->
     <string name="app_name">epicture</string>
     <string name="action_see_content">access your wall</string>
-    <string name="action_upload">upload an image</string>
+    <string name="action_upload">upload picture</string>
 
     <!-- upload activity -->
+    <string name="upload_name">Upload</string>
     <string name="choose_picture">Choose a picture to upload</string>
     <string name="button_upload">upload</string>
     <string name="button_clear">clear</string>
+    <string name="img_upload_description">Pictures to upload</string>
+    <string name="default_description">description…</string>
+    <string name="default_title">title…</string>
 
-
+    <!-- ReadContentActivity -->
+    <string name="read_content_name">My Wall</string>
+    <string name="pictures_description">picture fetched from imgur api</string>
 </resources>

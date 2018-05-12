@@ -34,11 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void dispReadContentActivity() {
         Intent intent = new Intent(this, ReadContentActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     private void dispUploadActivity() {
         Intent intent = new Intent(this, UploadActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 }
