@@ -9,6 +9,8 @@
     <dimen name="mini_margin">5dp</dimen>
     <dimen name="vertical_small_margin">5dp</dimen>
 
-    <!-- read content activity -->
+    <!-- read read_content_item activity -->
     <dimen name="picture_height">180dp</dimen>
+    <dimen name="card_offset">15dp</dimen>
+    <dimen name="card_margin">10dp</dimen>
 </resources>

@@ -74,14 +74,16 @@ public class UploadActivity extends AppCompatActivity {
         //up.image = image;
         pic.setTitle(titleView.getText().toString());
         pic.setDescription(descriptionView.getText().toString());
-        if(pic.getTitle().trim().equals("") || pic.getDescription().trim().equals("")) {
-            if (pic.getTitle().trim().equals(""))
-                titleView.setError("Title can not be empty");
-            if (pic.getDescription().trim().equals(""))
-                descriptionView.setError("Description can not be empty");
-        } else {
+        if (pic.getTitle().trim().equals(""))
+            titleView.setError("Title can not be empty");
+        else {
             // upload image with title and description
             HandlerService.startActionUpload(getApplicationContext(), pic.getImage(), pic.getTitle(), pic.getDescription());
+
+            // go back to main activity while service runs in the background
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         }
     }
 
@@ -154,24 +156,6 @@ public class UploadActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if (!titleView.getText().toString().trim().equals("")) {
                     titleView.setError(null);
-                }
-            }
-        });
-        descriptionView.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!descriptionView.getText().toString().trim().equals("")) {
-                    descriptionView.setError(null);
                 }
             }
         });
