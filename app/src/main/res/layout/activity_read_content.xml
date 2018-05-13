@@ -6,7 +6,4 @@
     android:layout_height="match_parent"
     tools:context=".activities.ReadContentActivity"
     tools:listitem="@layout/read_content_item">
-
-
-
 </android.support.v7.widget.RecyclerView>

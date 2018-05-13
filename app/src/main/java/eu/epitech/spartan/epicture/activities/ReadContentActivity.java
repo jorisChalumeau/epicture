@@ -2,9 +2,9 @@ package eu.epitech.spartan.epicture.activities;
 
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,7 +30,6 @@ import okhttp3.Response;
 
 public class ReadContentActivity extends AppCompatActivity {
 
-    private OkHttpClient httpClient;
     private final String SECTION = "/user"; // hot|top|user default: hot
     private final String SORT = "/rising";  // viral|top|time|rising default: viral
     private final String WINDOW = "";       // only if SECTION=top => day|week|month|year|all default: day
@@ -38,14 +37,14 @@ public class ReadContentActivity extends AppCompatActivity {
 
     private final Request hotPicturesRequest = new Request.Builder()
             .url("https://api.imgur.com/3/gallery.json")
-            .header("Authorization","Client-ID f4b1b225b0c412a")
-            .header("User-Agent","MyApp")
+            .header("Authorization", "Client-ID f4b1b225b0c412a")
+            .header("User-Agent", "MyApp")
             .build();
 
     private final Request userPicturesRequest = new Request.Builder()
-            .url("https://api.imgur.com/3/gallery"+SECTION+SORT+WINDOW+PAGE+".json")
-            .header("Authorization","Client-ID f4b1b225b0c412a")
-            .header("User-Agent","MyApp")
+            .url("https://api.imgur.com/3/gallery" + SECTION + SORT + WINDOW + PAGE + ".json")
+            .header("Authorization", "Client-ID f4b1b225b0c412a")
+            .header("User-Agent", "MyApp")
             .build();
 
 
@@ -57,51 +56,50 @@ public class ReadContentActivity extends AppCompatActivity {
     }
 
     private void fetchData() {
-        httpClient = new OkHttpClient.Builder().build();
+        OkHttpClient httpClient = new OkHttpClient.Builder().build();
 
         httpClient.newCall(userPicturesRequest).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.e("Error Fetching Data","Error : failed to fetch imgur data " + e);
+                Log.e("Error Fetching Data", "Error : failed to fetch imgur data " + e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.i("Success Fetching Data","Succeeded fetching imgur data");
+                Log.i("Success Fetching Data", "Succeeded fetching imgur data");
 
                 // TODO : parse json response into Picture
-                if(response.body() == null) {
+                if (response.body() == null) {
                     System.out.println("nothing fetched");
-                    return;
-                }
+                } else {
+                    JSONObject data;
+                    JSONArray items;
+                    try {
+                        data = new JSONObject(response.body().string());
+                        items = data.getJSONArray("data");
+                        final List<Picture> pictures = new ArrayList<>();
 
-                JSONObject data;
-                JSONArray items;
-                try {
-                    data = new JSONObject(response.body().string());
-                    items = data.getJSONArray("data");
-                    final List<Picture> pictures = new ArrayList<Picture>();
+                        // for each post
+                        for (int i = 0; i < items.length(); i++) {
+                            JSONObject item = items.getJSONObject(i);
+                            Picture pict = new Picture();
+                            pict.setImage(Uri.parse(item.getString("link")));
+                            pict.setTitle(item.getString("title"));
+                            pict.setDateTime(item.getLong("datetime"));
+                            pict.setScore(item.getInt("score"));
+                            pict.setViews(item.getInt("views"));
 
-                    // for each post
-                    for(int i=0; i<items.length();i++) {
-                        JSONObject item = items.getJSONObject(i);
-                        Picture pict = new Picture();
-                        pict.setImage(Uri.parse(item.getString("link")));
-                        pict.setTitle(item.getString("title"));
-                        pict.setDateTime(item.getLong("datetime"));
-                        pict.setScore(item.getInt("score"));
-                        pict.setViews(item.getInt("views"));
-
-                        pictures.add(pict); // Add picture with title, datetime, etc. to the list
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                render(pictures);
-                            }
-                        });
+                            pictures.add(pict); // Add picture with title, datetime, etc. to the list
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    render(pictures);
+                                }
+                            });
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -114,7 +112,7 @@ public class ReadContentActivity extends AppCompatActivity {
             @NonNull
             @Override
             public PicturesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                PicturesViewHolder vh = new PicturesViewHolder(getLayoutInflater().inflate(R.layout.read_content_item, rv));
+                PicturesViewHolder vh = new PicturesViewHolder(getLayoutInflater().inflate(R.layout.read_content_item, rv, false));
                 vh.picture = vh.itemView.findViewById(R.id.item_picture);
                 vh.title = vh.itemView.findViewById(R.id.item_title);
                 vh.description = vh.itemView.findViewById(R.id.item_description);
