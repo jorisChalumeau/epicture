@@ -90,13 +90,10 @@ public class ReadContentActivity extends AppCompatActivity {
                             Picture pict = new Picture();
                             pict.setTitle(item.getString("title"));
                             System.out.println(item);
-                            try {
-                                if (item.getBoolean("animated")) {
-                                    pict.setAnimateImage(item.getString("cover"));
-                                }
-                            }catch (org.json.JSONException ignored){
-                                pict.setImage(item.getString("cover"));
-                            }
+                            if(item.has("animated") && item.getBoolean("animated")) //TODO: au cas ou y a un truc à faire
+                                pict.setImage(((JSONObject)item.getJSONArray("images").get(0)).getString("link"));
+                            else
+                                pict.setImage(((JSONObject)item.getJSONArray("images").get(0)).getString("link"));
                             pict.setDateTime(item.getLong("datetime"));
                             pict.setScore(item.getInt("score"));
                             pict.setViews(item.getInt("views"));
@@ -119,6 +116,9 @@ public class ReadContentActivity extends AppCompatActivity {
     private void render(final List<Picture> pictures) {
         final RecyclerView rv = findViewById(R.id.rv_content);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        for(Picture p : pictures)
+            System.out.println(p.toString());
+
         RecyclerView.Adapter<PicturesViewHolder> adapter = new RecyclerView.Adapter<PicturesViewHolder>() {
             @NonNull
             @Override
@@ -137,10 +137,13 @@ public class ReadContentActivity extends AppCompatActivity {
             public void onBindViewHolder(@NonNull PicturesViewHolder holder, int position) {
                 Picasso.with(ReadContentActivity.this).load(pictures.get(position).getImage()).into(holder.picture);
                 holder.title.setText(pictures.get(position).getTitle());
-                holder.description.setText(pictures.get(position).getTitle());
-                holder.score.setText(pictures.get(position).getTitle());
-                holder.views.setText(pictures.get(position).getTitle());
-                holder.dateTime.setText(pictures.get(position).getDatetime());
+                if(pictures.get(position).getDescription() == null || pictures.get(position).getDescription().equals("null"))
+                    holder.description.setVisibility(View.GONE);
+                else
+                    holder.description.setText(pictures.get(position).getDescription());
+                holder.score.setText(pictures.get(position).getTitle());//getScore());
+                holder.views.setText(pictures.get(position).getTitle());//getViews());
+                holder.dateTime.setText(pictures.get(position).getTitle());//getDatetime());
             }
 
             @Override
@@ -153,6 +156,7 @@ public class ReadContentActivity extends AppCompatActivity {
         rv.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                // margin between cards
                 outRect.bottom = R.dimen.card_offset;
             }
         });

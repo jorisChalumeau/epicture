@@ -43,13 +43,7 @@ public class Picture {
     }
 
     public void setImage(String image) {
-        System.out.println(title+" jpg "+image);
-        this.image = Uri.parse("https://i.imgur.com/" + image + ".jpg").toString();
-    }
-
-    public void setAnimateImage(String image) {
-        System.out.println(title+" mp4 "+image);
-        this.image = Uri.parse("https://i.imgur.com/" + image + ".gif").toString();
+        this.image = image;
     }
 
     public String getDatetime() {
@@ -83,5 +77,11 @@ public class Picture {
 
     public void setViews(int views) {
         this.views = views;
+    }
+
+    @Override
+    public String toString() {
+        return "\ntitle: "+title+"\ndescription: "+description+"\nimage: "+image+"\nscore: "+score
+                +"\nviews: "+views+"\ndatetime: "+datetime;
     }
 }
