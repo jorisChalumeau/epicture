@@ -1,7 +1,8 @@
 package eu.epitech.spartan.epicture.activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,12 +88,18 @@ public class ReadContentActivity extends AppCompatActivity {
                         for (int i = 0; i < items.length(); i++) {
                             JSONObject item = items.getJSONObject(i);
                             Picture pict = new Picture();
-                            pict.setImage(Uri.parse(item.getString("link")));
                             pict.setTitle(item.getString("title"));
+                            System.out.println(item);
+                            try {
+                                if (item.getBoolean("animated")) {
+                                    pict.setAnimateImage(item.getString("cover"));
+                                }
+                            }catch (org.json.JSONException ignored){
+                                pict.setImage(item.getString("cover"));
+                            }
                             pict.setDateTime(item.getLong("datetime"));
                             pict.setScore(item.getInt("score"));
                             pict.setViews(item.getInt("views"));
-
                             pictures.add(pict); // Add picture with title, datetime, etc. to the list
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -124,7 +135,7 @@ public class ReadContentActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull PicturesViewHolder holder, int position) {
-                holder.picture.setImageURI(pictures.get(position).getImage());
+                Picasso.with(ReadContentActivity.this).load(pictures.get(position).getImage()).into(holder.picture);
                 holder.title.setText(pictures.get(position).getTitle());
                 holder.description.setText(pictures.get(position).getTitle());
                 holder.score.setText(pictures.get(position).getTitle());

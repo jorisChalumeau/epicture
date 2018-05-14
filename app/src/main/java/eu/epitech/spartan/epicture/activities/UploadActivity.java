@@ -78,7 +78,7 @@ public class UploadActivity extends AppCompatActivity {
             titleView.setError("Title can not be empty");
         else {
             // upload image with title and description
-            HandlerService.startActionUpload(getApplicationContext(), pic.getImage(), pic.getTitle(), pic.getDescription());
+            HandlerService.startActionUpload(getApplicationContext(), Uri.parse(pic.getImage()), pic.getTitle(), pic.getDescription());
 
             // go back to main activity while service runs in the background
             Intent intent = new Intent(this, MainActivity.class);
@@ -117,7 +117,7 @@ public class UploadActivity extends AppCompatActivity {
     private void addPicture(Uri selectedImage) {
         ImageView imageView = findViewById(R.id.toUploadImgView);
         imageView.setImageURI(selectedImage);
-        pic = new Picture(selectedImage);
+        pic = new Picture(selectedImage.toString());
 
         // enable upload and clear buttons
         Button bUpload = findViewById(R.id.uploadButton);
