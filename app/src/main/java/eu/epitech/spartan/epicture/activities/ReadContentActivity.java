@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -39,7 +40,6 @@ public class ReadContentActivity extends AppCompatActivity {
     private final String SORT = "/rising";  // viral|top|time|rising default: viral
     private final String WINDOW = "";       // only if SECTION=top => day|week|month|year|all default: day
     private final String PAGE = "/0";       // integer-page number
-
     private final Request hotPicturesRequest = new Request.Builder()
             .url("https://api.imgur.com/3/gallery.json")
             .header("Authorization", "Client-ID f4b1b225b0c412a")
@@ -89,11 +89,14 @@ public class ReadContentActivity extends AppCompatActivity {
                             JSONObject item = items.getJSONObject(i);
                             Picture pict = new Picture();
                             pict.setTitle(item.getString("title"));
-                            System.out.println(item);
-                            if(item.has("animated") && item.getBoolean("animated")) //TODO: au cas ou y a un truc à faire
-                                pict.setImage(((JSONObject)item.getJSONArray("images").get(0)).getString("link"));
-                            else
-                                pict.setImage(((JSONObject)item.getJSONArray("images").get(0)).getString("link"));
+
+                            if(item.has("animated") && item.getBoolean("animated")) { //TODO: au cas ou y a un truc à faire
+                                pict.setImage(item.getString("link"));
+                            } else if(item.has("images")){
+                                pict.setImage(((JSONObject) item.getJSONArray("images").get(0)).getString("link"));
+                            } else {
+                                pict.setImage(item.getString("link"));
+                            }
                             pict.setDateTime(item.getLong("datetime"));
                             pict.setScore(item.getInt("score"));
                             pict.setViews(item.getInt("views"));
@@ -135,7 +138,12 @@ public class ReadContentActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull PicturesViewHolder holder, int position) {
-                Picasso.with(ReadContentActivity.this).load(pictures.get(position).getImage()).into(holder.picture);
+                if(pictures.get(position).getImage().contains(".gif")) {
+                    Glide.with(ReadContentActivity.this).load(pictures.get(position).getImage()).asGif().into(holder.picture);
+                } else if (! pictures.get(position).getImage().contains(".mp4")) {
+                System.out.println(pictures.get(position).getImage());
+                    Picasso.with(ReadContentActivity.this).load(pictures.get(position).getImage()).into(holder.picture);
+                }
                 holder.title.setText(pictures.get(position).getTitle());
                 if(pictures.get(position).getDescription() == null || pictures.get(position).getDescription().equals("null"))
                     holder.description.setVisibility(View.GONE);
