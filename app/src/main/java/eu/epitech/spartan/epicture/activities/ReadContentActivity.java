@@ -1,7 +1,5 @@
 package eu.epitech.spartan.epicture.activities;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,8 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +53,18 @@ public class ReadContentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_content);
+        RecyclerView rv = findViewById(R.id.rv_content);
+        rv.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.Adapter<PicturesViewHolder> adapter = new RecyclerView.Adapter<PicturesViewHolder>() {
+            @NonNull
+            @Override
+            public PicturesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {return null;}
+            @Override
+            public void onBindViewHolder(@NonNull PicturesViewHolder holder, int position) {}
+            @Override
+            public int getItemCount() { return 0;}
+        };
+        rv.setAdapter(adapter);
         fetchData();
     }
 
@@ -119,9 +127,6 @@ public class ReadContentActivity extends AppCompatActivity {
     private void render(final List<Picture> pictures) {
         final RecyclerView rv = findViewById(R.id.rv_content);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        for(Picture p : pictures)
-            System.out.println(p.toString());
-
         RecyclerView.Adapter<PicturesViewHolder> adapter = new RecyclerView.Adapter<PicturesViewHolder>() {
             @NonNull
             @Override
@@ -138,20 +143,19 @@ public class ReadContentActivity extends AppCompatActivity {
 
             @Override
             public void onBindViewHolder(@NonNull PicturesViewHolder holder, int position) {
-                if(pictures.get(position).getImage().contains(".gif")) {
+                if (pictures.get(position).getImage().contains(".gif") || pictures.get(position).getImage().contains(".mp4")) {
                     Glide.with(ReadContentActivity.this).load(pictures.get(position).getImage()).asGif().into(holder.picture);
-                } else if (! pictures.get(position).getImage().contains(".mp4")) {
-                System.out.println(pictures.get(position).getImage());
+                } else {
                     Picasso.with(ReadContentActivity.this).load(pictures.get(position).getImage()).into(holder.picture);
                 }
                 holder.title.setText(pictures.get(position).getTitle());
-                if(pictures.get(position).getDescription() == null || pictures.get(position).getDescription().equals("null"))
+                if (pictures.get(position).getDescription() == null || pictures.get(position).getDescription().equals("null"))
                     holder.description.setVisibility(View.GONE);
                 else
                     holder.description.setText(pictures.get(position).getDescription());
-                holder.score.setText(pictures.get(position).getTitle());//getScore());
-                holder.views.setText(pictures.get(position).getTitle());//getViews());
-                holder.dateTime.setText(pictures.get(position).getTitle());//getDatetime());
+                holder.views.setText(String.format(getResources().getString(R.string.view), pictures.get(position).getViews()));
+                holder.score.setText(String.format(getResources().getString(R.string.score), pictures.get(position).getScore()));
+                holder.dateTime.setText(pictures.get(position).getDatetime());
             }
 
             @Override

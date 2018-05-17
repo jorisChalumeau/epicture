@@ -16,4 +16,6 @@
     <!-- ReadContentActivity -->
     <string name="read_content_name">My Wall</string>
     <string name="pictures_description">picture fetched from imgur api</string>
+    <string name="view">Views : %1$d</string>
+    <string name="score">Score : %1$d</string>
 </resources>
