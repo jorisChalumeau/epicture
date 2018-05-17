@@ -117,13 +117,15 @@ public class UploadActivity extends AppCompatActivity {
         ImageView imageView = findViewById(R.id.toUploadImgView);
         imageView.setImageURI(selectedImage);
         pic = new Picture(selectedImage.toString());
-
+        EditText titleText = findViewById(R.id.toUploadTitle);
         // enable upload and clear buttons
-        Button bUpload = findViewById(R.id.uploadButton);
-        Button bClear = findViewById(R.id.clearButton);
+        if (!titleText.getText().toString().trim().equals("")) {
+            Button bUpload = findViewById(R.id.uploadButton);
+            Button bClear = findViewById(R.id.clearButton);
+            bUpload.setEnabled(true);
+            bClear.setEnabled(true);
+        }
         LinearLayout addPicLayout = findViewById(R.id.toChooseImgAction);
-        bUpload.setEnabled(true);
-        bClear.setEnabled(true);
         addPicLayout.setVisibility(View.GONE);
     }
 
@@ -132,28 +134,33 @@ public class UploadActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
+            System.out.println(selectedImage);
             addPicture(selectedImage);
         }
     }
 
     private void handleTextErrors() {
         final EditText titleView = findViewById(R.id.toUploadTitle);
-
         titleView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!titleView.getText().toString().trim().equals("")) {
+                Button bUpload = findViewById(R.id.uploadButton);
+                Button bClear = findViewById(R.id.clearButton);
+                if (!titleView.getText().toString().trim().equals("") && pic != null) {
                     titleView.setError(null);
+                    bUpload.setEnabled(true);
+                    bClear.setEnabled(true);
+                } else {
+                    bUpload.setEnabled(false);
+                    bClear.setEnabled(false);
                 }
             }
         });

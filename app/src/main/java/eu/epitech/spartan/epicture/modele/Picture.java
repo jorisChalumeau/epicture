@@ -1,8 +1,6 @@
 package eu.epitech.spartan.epicture.modele;
 
 import android.annotation.SuppressLint;
-import android.net.Uri;
-import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +14,8 @@ public class Picture {
     private int views;
     private String datetime;
 
-    public Picture() {}
+    public Picture() {
+    }
 
     public Picture(String img) {
         this.image = img;
@@ -55,7 +54,7 @@ public class Picture {
      */
     @SuppressLint("SimpleDateFormat")
     public void setDateTime(Long dateTimeInS) {
-        Date date = new Date(dateTimeInS*1000);
+        Date date = new Date(dateTimeInS * 1000);
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         format.setTimeZone(TimeZone.getTimeZone("Etc/UTC"));
         this.datetime = format.format(date);
@@ -81,7 +80,7 @@ public class Picture {
 
     @Override
     public String toString() {
-        return "\ntitle: "+title+"\ndescription: "+description+"\nimage: "+image+"\nscore: "+score
-                +"\nviews: "+views+"\ndatetime: "+datetime;
+        return "\ntitle: " + title + "\ndescription: " + description + "\nimage: " + image + "\nscore: " + score
+                + "\nviews: " + views + "\ndatetime: " + datetime;
     }
 }
