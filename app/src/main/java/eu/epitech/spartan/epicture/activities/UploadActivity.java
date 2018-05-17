@@ -67,7 +67,6 @@ public class UploadActivity extends AppCompatActivity {
      * upload selected pictures
      */
     private void uploadPictures() {
-        ImageView imgView = findViewById(R.id.toUploadImgView);
         EditText titleView = findViewById(R.id.toUploadTitle);
         EditText descriptionView = findViewById(R.id.toUploadDescription);
 
@@ -139,7 +138,6 @@ public class UploadActivity extends AppCompatActivity {
 
     private void handleTextErrors() {
         final EditText titleView = findViewById(R.id.toUploadTitle);
-        final EditText descriptionView = findViewById(R.id.toUploadDescription);
 
         titleView.addTextChangedListener(new TextWatcher() {
             @Override

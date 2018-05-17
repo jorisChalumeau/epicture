@@ -53,14 +53,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/default_title"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/toUploadDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/default_description"
-        android:layout_marginTop="@dimen/vertical_small_margin" />
+        android:layout_marginTop="@dimen/vertical_small_margin"
+        android:inputType="textMultiLine" />
 
     <RelativeLayout
         android:layout_width="match_parent"
