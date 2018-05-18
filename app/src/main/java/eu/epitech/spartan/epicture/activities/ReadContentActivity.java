@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 import eu.epitech.spartan.epicture.R;
+import eu.epitech.spartan.epicture.modele.ImgurSettings;
 import eu.epitech.spartan.epicture.modele.Picture;
 import eu.epitech.spartan.epicture.modele.PicturesViewHolder;
 import okhttp3.Call;
@@ -33,7 +34,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class ReadContentActivity extends AppCompatActivity {
-
     private final String SECTION = "/user"; // hot|top|user default: hot
     private final String SORT = "/rising";  // viral|top|time|rising default: viral
     private final String WINDOW = "";       // only if SECTION=top => day|week|month|year|all default: day
@@ -46,8 +46,8 @@ public class ReadContentActivity extends AppCompatActivity {
 
     private final Request userPicturesRequest = new Request.Builder()
             .url("https://api.imgur.com/3/gallery" + SECTION + SORT + WINDOW + PAGE + ".json")
-            .header("Authorization", "Client-ID f4b1b225b0c412a")
-            .header("User-Agent", "MyApp")
+            .header("Authorization", "Client-ID " + ImgurSettings.IMGUR_CLIENT_ID)
+            //.header("User-Agent", "MyApp")
             .build();
 
 

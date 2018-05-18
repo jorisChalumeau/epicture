@@ -134,7 +134,6 @@ public class UploadActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SELECT_PHOTO && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
-            System.out.println(selectedImage);
             addPicture(selectedImage);
         }
     }
